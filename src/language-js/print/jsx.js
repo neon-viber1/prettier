@@ -331,9 +331,37 @@ function printJsxChildren(
     prevPart = doc;
     parts.push(doc, "");
   }
-  path.each(({ node, next }) => {
+  // See the comment in the `JSXText` branch below.
+  const isPunctuationSeparator = (node, previous, next) =>
+    !isFacebookTranslationTag &&
+    whitespace !== line &&
+    previous &&
+    previous.type !== "JSXText" &&
+    next &&
+    next.type !== "JSXText" &&
+    node.type === "JSXText" &&
+    /^ [^\p{Letter}\p{Number}"'\\&{}<>\s]+ $/u.test(getRaw(node));
+  let consumedIndex = -1;
+  path.each(({ node, next, previous, index }) => {
     if (node.type === "JSXText") {
       const text = getRaw(node);
+
+      // A lone punctuation word surrounded by single spaces, between two
+      // non-text children (e.g. `<b/> · {x}`). If the line has to break, keep
+      // the whole text run as one string (`{" · "}`) instead of splitting it
+      // into raw text plus a standalone `{" "}`, which can change how browsers
+      // render the text.
+      if (isPunctuationSeparator(node, previous, next)) {
+        const quote = options.singleQuote ? "'" : '"';
+        push(
+          group([
+            ifBreak([`{${quote}${text}${quote}}`, softline], text),
+            path.callParent(() => path.call(print, "children", index + 1)),
+          ]),
+        );
+        consumedIndex = index + 1;
+        return;
+      }
 
       // Contains a non-whitespace character
       if (isMeaningfulJsxText(node)) {
@@ -415,12 +443,15 @@ function printJsxChildren(
         pushLine(whitespace);
       }
     } else {
-      const printedChild = print();
-      push(printedChild);
+      if (index !== consumedIndex) {
+        push(print());
+      }
 
       const directlyFollowedByMeaningfulText =
         next && isMeaningfulJsxText(next);
-      if (directlyFollowedByMeaningfulText) {
+      if (isPunctuationSeparator(next, node, path.siblings[index + 2])) {
+        // The separator text is attached to this child, see above.
+      } else if (directlyFollowedByMeaningfulText) {
         const trimmed = jsxWhitespace.trim(getRaw(next));
         const [firstWord] = jsxWhitespace.split(trimmed);
         pushLine(

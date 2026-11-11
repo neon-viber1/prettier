@@ -78,7 +78,9 @@ function massageAstNode(original, cloned, parent) {
     original.type === "JSXExpressionContainer" &&
     (original.expression.type === "Literal" ||
       original.expression.type === "StringLiteral") &&
-    original.expression.value === " "
+    (original.expression.value === " " ||
+      // Punctuation separator printed as one string, see `printJsxChildren`
+      /^ [^\p{Letter}\p{Number}\s]+ $/u.test(String(original.expression.value)))
   ) {
     return null;
   }
