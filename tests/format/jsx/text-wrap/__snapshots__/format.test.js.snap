@@ -932,8 +932,8 @@ x = (
       <div>
         <div>
           <div>
-            Line {startRange.row + 1}:
-            {startRange.column + 1} - {endRange.row + 1}:{endRange.column + 1}
+            Line {startRange.row + 1}:{startRange.column + 1} -{" "}
+            {endRange.row + 1}:{endRange.column + 1}
             {caller}
           </div>
         </div>

@@ -24,6 +24,7 @@ import needsParentheses from "../parentheses/needs-parentheses.js";
 import { CommentCheckFlags, hasComment } from "../utilities/comments.js";
 import { createTypeCheckFunction } from "../utilities/create-type-check-function.js";
 import { getRaw } from "../utilities/get-raw.js";
+import { isJsxSeparatorRun } from "../utilities/is-jsx-separator-run.js";
 import { isMeaningfulJsxText } from "../utilities/is-meaningful-jsx-text.js";
 import { isNextLineEmpty } from "../utilities/is-next-line-empty.js";
 import { jsxWhitespace } from "../utilities/jsx-whitespace.js";
@@ -331,37 +332,84 @@ function printJsxChildren(
     prevPart = doc;
     parts.push(doc, "");
   }
-  // See the comment in the `JSXText` branch below.
-  const isPunctuationSeparator = (node, previous, next) =>
-    !isFacebookTranslationTag &&
-    whitespace !== line &&
-    previous &&
-    previous.type !== "JSXText" &&
-    next &&
-    next.type !== "JSXText" &&
-    node.type === "JSXText" &&
-    /^ [^\p{Letter}\p{Number}"'\\&{}<>\s]+ $/u.test(getRaw(node));
+  // A lone punctuation word surrounded by single spaces between two non-text
+  // children (e.g. `<b/> · {x}`), either as text or as `{" · "}`. If the line
+  // has to break, the whole run is printed as one string expression instead of
+  // being split into raw text plus a standalone `{" "}`, which can change how
+  // browsers render the text.
+  const siblings = path.node.children;
+  // The index of the closest sibling in `direction` that is not a plain
+  // line break between children, or `-1` if there is a blank line in between.
+  const getAdjacentIndex = (index, direction) => {
+    let i = index + direction;
+    while (
+      siblings[i]?.type === "JSXText" &&
+      !isMeaningfulJsxText(siblings[i])
+    ) {
+      if (getRaw(siblings[i]).split("\n").length > 2) {
+        return -1;
+      }
+      i += direction;
+    }
+    return i;
+  };
+  const getSeparatorRun = (index) => {
+    const node = siblings[index];
+    const previousIndex = getAdjacentIndex(index, -1);
+    const nextIndex = getAdjacentIndex(index, 1);
+    if (
+      isFacebookTranslationTag ||
+      whitespace === line ||
+      !node ||
+      previousIndex < 0 ||
+      nextIndex < 0 ||
+      !siblings[previousIndex] ||
+      !siblings[nextIndex] ||
+      siblings[previousIndex].type === "JSXText" ||
+      siblings[nextIndex].type === "JSXText" ||
+      // Keep the old layout when text is glued to the end of the next child,
+      // e.g. `{a} - {b}:{c}`
+      (siblings[nextIndex + 1]?.type === "JSXText" &&
+        !/^\s/.test(getRaw(siblings[nextIndex + 1])))
+    ) {
+      return;
+    }
+    let value;
+    let isText = false;
+    if (node.type === "JSXText") {
+      value = getRaw(node);
+      isText = true;
+    } else if (
+      node.type === "JSXExpressionContainer" &&
+      isStringLiteral(node.expression) &&
+      !hasComment(node) &&
+      !hasComment(node.expression) &&
+      getRaw(node.expression).slice(1, -1) === node.expression.value
+    ) {
+      value = node.expression.value;
+    } else {
+      return;
+    }
+    return isJsxSeparatorRun(value) ? { value, isText, nextIndex } : undefined;
+  };
   let consumedIndex = -1;
-  path.each(({ node, next, previous, index }) => {
+  path.each(({ node, next, index }) => {
+    const run = index === consumedIndex ? undefined : getSeparatorRun(index);
+    if (run) {
+      const quote = options.singleQuote ? "'" : '"';
+      const stringExpression = [`{${quote}${run.value}${quote}}`, softline];
+      push(
+        group([
+          run.isText ? ifBreak(stringExpression, run.value) : stringExpression,
+          path.callParent(() => path.call(print, "children", run.nextIndex)),
+        ]),
+      );
+      consumedIndex = run.nextIndex;
+      return;
+    }
+
     if (node.type === "JSXText") {
       const text = getRaw(node);
-
-      // A lone punctuation word surrounded by single spaces, between two
-      // non-text children (e.g. `<b/> · {x}`). If the line has to break, keep
-      // the whole text run as one string (`{" · "}`) instead of splitting it
-      // into raw text plus a standalone `{" "}`, which can change how browsers
-      // render the text.
-      if (isPunctuationSeparator(node, previous, next)) {
-        const quote = options.singleQuote ? "'" : '"';
-        push(
-          group([
-            ifBreak([`{${quote}${text}${quote}}`, softline], text),
-            path.callParent(() => path.call(print, "children", index + 1)),
-          ]),
-        );
-        consumedIndex = index + 1;
-        return;
-      }
 
       // Contains a non-whitespace character
       if (isMeaningfulJsxText(node)) {
@@ -449,8 +497,15 @@ function printJsxChildren(
 
       const directlyFollowedByMeaningfulText =
         next && isMeaningfulJsxText(next);
-      if (isPunctuationSeparator(next, node, path.siblings[index + 2])) {
-        // The separator text is attached to this child, see above.
+      const nextIndex = getAdjacentIndex(index, 1);
+      if (
+        nextIndex > 0 &&
+        nextIndex !== consumedIndex &&
+        getSeparatorRun(nextIndex)
+      ) {
+        // The separator run is printed right after this child without a
+        // line break opportunity, see above.
+        pushLine(noBreakSeparator);
       } else if (directlyFollowedByMeaningfulText) {
         const trimmed = jsxWhitespace.trim(getRaw(next));
         const [firstWord] = jsxWhitespace.split(trimmed);
@@ -470,6 +525,13 @@ function printJsxChildren(
 
   return parts;
 }
+
+// A `fill()` separator that prints nothing and never breaks: the group id is
+// never printed, so `ifBreak` always picks the flat (empty) contents. The
+// `softline` is only there to make it a valid `fill()` separator.
+const noBreakSeparator = ifBreak(softline, "", {
+  groupId: Symbol("jsx-no-break-separator"),
+});
 
 function separatorNoWhitespace(
   isFacebookTranslationTag,
