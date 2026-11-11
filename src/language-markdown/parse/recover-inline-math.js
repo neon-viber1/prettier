@@ -124,7 +124,7 @@ function mask(text, candidates) {
   return result + text.slice(last);
 }
 
-function splitTextNodes(ast, candidates) {
+function splitTextNodes(ast, candidates, getValue) {
   let converted = 0;
   const visit = (node) => {
     if (!node.children) {
@@ -147,7 +147,7 @@ function splitTextNodes(ast, candidates) {
         }
         changed = true;
         if (from > cursor) {
-          children.push(sliceText(child, cursor, from, start));
+          children.push(sliceText(child, cursor, from, start, getValue));
         }
         children.push({
           type: "inlineMath",
@@ -163,7 +163,7 @@ function splitTextNodes(ast, candidates) {
       if (!changed) {
         children.push(child);
       } else if (cursor < end) {
-        children.push(sliceText(child, cursor, end, start));
+        children.push(sliceText(child, cursor, end, start, getValue));
       }
     }
     node.children = children;
@@ -172,7 +172,6 @@ function splitTextNodes(ast, candidates) {
   return converted;
 }
 
-// Text node values map 1:1 to source here (verified by the caller)
 function offsetPosition(node, offset, nodeStart) {
   const { start } = node.position;
   return {
@@ -182,10 +181,13 @@ function offsetPosition(node, offset, nodeStart) {
   };
 }
 
-function sliceText(node, from, to, nodeStart) {
+function sliceText(node, from, to, nodeStart, getValue) {
   return {
     type: "text",
-    value: node.value.slice(from - nodeStart, to - nodeStart),
+    value:
+      node.value.length === node.position.end.offset - nodeStart
+        ? node.value.slice(from - nodeStart, to - nodeStart)
+        : getValue(from, to),
     position: {
       start: offsetPosition(node, from, nodeStart),
       end: offsetPosition(node, to, nodeStart),
@@ -210,8 +212,25 @@ function recoverInlineMath(ast, content, parse) {
 
   // Fall back to the original AST unless every candidate was converted,
   // otherwise masked characters could leak into the output
-  const converted = splitTextNodes(maskedAst, candidates);
-  return converted === candidates.length ? maskedAst : ast;
+  // Text values containing escapes or entities are shorter than their source
+  // ranges, so derive the value of such pieces by parsing the source slice
+  let failed = false;
+  const getValue = (from, to) => {
+    const wrapped = parse(`x${masked.slice(from, to)}x`);
+    const children = wrapped.children[0]?.children;
+    if (
+      children?.length === 1 &&
+      children[0].type === "text" &&
+      children[0].value.length >= 2
+    ) {
+      return children[0].value.slice(1, -1);
+    }
+    failed = true;
+    return "";
+  };
+
+  const converted = splitTextNodes(maskedAst, candidates, getValue);
+  return !failed && converted === candidates.length ? maskedAst : ast;
 }
 
 export { recoverInlineMath };

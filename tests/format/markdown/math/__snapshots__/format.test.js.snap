@@ -201,6 +201,10 @@ $a_b$
 
 Costs $5 and $10, but $x_i$ and \`$z_1$\` here.
 
+a \\* b $x_i$ c &amp; $y_j$ d \\_ e
+
+&copy; $a*b*c$ \\* $u_1$ &amp;
+
 =====================================output=====================================
 $\\alpha^*$ and $\\beta^*$
 
@@ -215,6 +219,10 @@ $a_b$
 [link $x_i$ text](http://example.com/$a_b$) and $p_q$
 
 Costs $5 and $10, but $x_i$ and \`$z_1$\` here.
+
+a \\* b $x_i$ c &amp; $y_j$ d \\_ e
+
+&copy; $a*b*c$ \\* $u_1$ &amp;
 
 ================================================================================
 `;
@@ -238,6 +246,10 @@ $a_b$
 
 Costs $5 and $10, but $x_i$ and \`$z_1$\` here.
 
+a \\* b $x_i$ c &amp; $y_j$ d \\_ e
+
+&copy; $a*b*c$ \\* $u_1$ &amp;
+
 =====================================output=====================================
 $\\alpha^*$ and $\\beta^*$
 
@@ -252,6 +264,10 @@ $a_b$
 [link $x_i$ text](http://example.com/$a_b$) and $p_q$
 
 Costs $5 and $10, but $x_i$ and \`$z_1$\` here.
+
+a \\* b $x_i$ c &amp; $y_j$ d \\_ e
+
+&copy; $a*b*c$ \\* $u_1$ &amp;
 
 ================================================================================
 `;
