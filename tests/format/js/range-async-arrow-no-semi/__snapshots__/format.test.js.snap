@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`arrow-callback.js - {"semi":false,"singleQuote":true,"jsxSingleQuote":true,"arrowParens":"avoid","trailingComma":"none","printWidth":100} format 1`] = `
+    : ====================================options=====================================
+    : arrowParens: "avoid"
+    : jsxSingleQuote: true
+    : parsers: ["babel"]
+    : printWidth: 100
+    : rangeEnd: 249
+    : rangeStart: 128
+    : semi: false
+    : singleQuote: true
+    : trailingComma: "none"
+    :                                                                                    printWidth: 100 |
+    : =====================================input======================================
+  1 | test.describe('VS Code with Prettier and editor.formatOnPaste true', () => {
+  2 |   test('The cut-and-paste issue demo', () => {
+> 3 |     // Cut and paste the lines back triggers the semicolon issue
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 4 |     const something = 'something'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 5 |     console.log(something)
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 |   })
+  7 | })
+  8 |
+    : =====================================output=====================================
+    : test.describe('VS Code with Prettier and editor.formatOnPaste true', () => {
+    :   test('The cut-and-paste issue demo', () => {
+    :     // Cut and paste the lines back triggers the semicolon issue
+    :     const something = 'something'
+    :     console.log(something)
+    :   })
+    : })
+    :
+    : ================================================================================
+`;
+
+exports[`async-arrow-callback.js - {"semi":false,"singleQuote":true,"jsxSingleQuote":true,"arrowParens":"avoid","trailingComma":"none","printWidth":100} format 1`] = `
+    : ====================================options=====================================
+    : arrowParens: "avoid"
+    : jsxSingleQuote: true
+    : parsers: ["babel"]
+    : printWidth: 100
+    : rangeEnd: 255
+    : rangeStart: 134
+    : semi: false
+    : singleQuote: true
+    : trailingComma: "none"
+    :                                                                                    printWidth: 100 |
+    : =====================================input======================================
+  1 | test.describe('VS Code with Prettier and editor.formatOnPaste true', () => {
+  2 |   test('The cut-and-paste issue demo', async () => {
+> 3 |     // Cut and paste the lines back triggers the semicolon issue
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 4 |     const something = 'something'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 5 |     console.log(something)
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 |   })
+  7 | })
+  8 |
+    : =====================================output=====================================
+    : test.describe('VS Code with Prettier and editor.formatOnPaste true', () => {
+    :   test('The cut-and-paste issue demo', async () => {
+    :     // Cut and paste the lines back triggers the semicolon issue
+    :     const something = 'something'
+    :     console.log(something)
+    :   })
+    : })
+    :
+    : ================================================================================
+`;
