@@ -11,6 +11,7 @@ import {
   liquidFromMarkdown,
   liquidSyntax,
 } from "./micromark/micromark-extension-liquid.js";
+import { recoverInlineMath } from "./recover-inline-math.js";
 
 let markdownParseOptions;
 function getMarkdownParseOptions() {
@@ -38,7 +39,8 @@ function getMarkdownParseOptions() {
 
 function parseMarkdown(text) {
   const { frontMatter, content } = parseFrontMatter(text);
-  const ast = fromMarkdown(content, getMarkdownParseOptions());
+  const parse = (text) => fromMarkdown(text, getMarkdownParseOptions());
+  const ast = recoverInlineMath(parse(content), content, parse);
 
   if (frontMatter) {
     const [start, end] = [frontMatter.start, frontMatter.end].map(
