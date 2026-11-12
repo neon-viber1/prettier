@@ -216,8 +216,24 @@ function printMdast(path, options, print) {
       return printCode(path, options);
     case "html": {
       const { parent, isLast } = path;
-      const value =
+      let value =
         parent.type === "root" && isLast ? node.value.trimEnd() : node.value;
+      if (
+        parent.type === "listItem" &&
+        parent.checked !== null &&
+        !path.isFirst
+      ) {
+        // The leading indentation comes from the list item, remove it
+        const indent = /^[ \t]*/.exec(value)[0];
+        if (indent) {
+          value = value
+            .split("\n")
+            .map((line) =>
+              line.startsWith(indent) ? line.slice(indent.length) : line,
+            )
+            .join("\n");
+        }
+      }
       const isHtmlComment = /^<!--.*-->$/s.test(value);
 
       return replaceEndOfLine(
