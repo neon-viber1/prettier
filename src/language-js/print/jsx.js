@@ -319,6 +319,8 @@ function printJsxChildren(
   let prevPart = "";
   /** @type {Doc[]} */
   const parts = [prevPart];
+  const isInMdx =
+    path.findAncestor((node) => node.rootMarker === "mdx") !== undefined;
   // To ensure rule of `fill()`, we use `push()` and `pushLine()` instead of `parts.push()`.
   function push(doc) {
     prevPart = doc;
@@ -338,10 +340,35 @@ function printJsxChildren(
       // Contains a non-whitespace character
       if (isMeaningfulJsxText(node)) {
         const words = jsxWhitespace.split(text, /* captureWhitespace */ true);
+        let removedWords = 0;
+        // Separators inside a Markdown link must not break in MDX blocks
+        const unbreakableSeparators = new Set(); // indexes in `words`
+        if (isInMdx) {
+          const linkRanges = text
+            .matchAll(MARKDOWN_LINK_REGEX)
+            .map((match) => [match.index, match.index + match[0].length])
+            .toArray();
+          if (linkRanges.length > 0) {
+            let offset = 0;
+            for (const [index, part] of words.entries()) {
+              if (
+                index % 2 === 1 &&
+                linkRanges.some(
+                  ([start, end]) =>
+                    offset > start && offset + part.length < end,
+                )
+              ) {
+                unbreakableSeparators.add(index);
+              }
+              offset += part.length;
+            }
+          }
+        }
 
         // Starts with whitespace
         if (words[0] === "") {
           words.shift();
+          removedWords++;
           if (/\n/.test(words[0])) {
             const trailingWhitespace =
               jsxWhitespace.getTrailingWhitespace(text);
@@ -360,6 +387,7 @@ function printJsxChildren(
             pushLine(whitespace);
           }
           words.shift();
+          removedWords++;
         }
 
         let endWhitespace;
@@ -376,7 +404,11 @@ function printJsxChildren(
 
         for (const [i, word] of words.entries()) {
           if (i % 2 === 1) {
-            pushLine(line);
+            if (unbreakableSeparators.has(i + removedWords)) {
+              push(" ");
+            } else {
+              pushLine(line);
+            }
           } else {
             push(word);
           }
@@ -459,6 +491,9 @@ function separatorNoWhitespace(
 
   return softline;
 }
+
+// `[label](destination "title")`
+const MARKDOWN_LINK_REGEX = /\[[^\][]*\]\([^()]*\)/gu;
 
 function separatorWithWhitespace(
   isFacebookTranslationTag,
