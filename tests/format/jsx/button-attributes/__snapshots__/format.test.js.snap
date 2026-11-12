@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`button.jsx format 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+function HelloWorld({greeting = "hello", onMouseOver,}) {
+  return <div className='HelloWorld' onMouseOver={onMouseOver}>
+
+    <button>Test</button>
+
+    <button data-item data-item data-item data-item data-item data-item data-item data-item data-item data-item data-item data-item data-item data-item data-item data-item>Test</button>
+
+    <button
+      type="button"
+      disabled>Test</button>
+
+    </div>;
+}
+
+=====================================output=====================================
+function HelloWorld({ greeting = "hello", onMouseOver }) {
+  return (
+    <div className="HelloWorld" onMouseOver={onMouseOver}>
+      <button>Test</button>
+
+      <button
+        data-item
+        data-item
+        data-item
+        data-item
+        data-item
+        data-item
+        data-item
+        data-item
+        data-item
+        data-item
+        data-item
+        data-item
+        data-item
+        data-item
+        data-item
+        data-item
+      >
+        Test
+      </button>
+
+      <button type="button" disabled>
+        Test
+      </button>
+    </div>
+  );
+}
+
+================================================================================
+`;
