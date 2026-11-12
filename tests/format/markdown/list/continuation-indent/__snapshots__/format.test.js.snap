@@ -1,0 +1,159 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`aligned.md - {"tabWidth":4} format 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+tabWidth: 4
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+1.  \`some command\`
+
+    Extra details about command 1
+
+2.  item 2
+
+    Additional details for line 2
+
+3.  item 3
+
+    Additional details for line 3
+
+=====================================output=====================================
+1.  \`some command\`
+
+    Extra details about command 1
+
+2.  item 2
+
+    Additional details for line 2
+
+3.  item 3
+
+    Additional details for line 3
+
+================================================================================
+`;
+
+exports[`aligned.md format 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+1.  \`some command\`
+
+    Extra details about command 1
+
+2.  item 2
+
+    Additional details for line 2
+
+3.  item 3
+
+    Additional details for line 3
+
+=====================================output=====================================
+1.  \`some command\`
+
+    Extra details about command 1
+
+2.  item 2
+
+    Additional details for line 2
+
+3.  item 3
+
+    Additional details for line 3
+
+================================================================================
+`;
+
+exports[`ordered.md - {"tabWidth":4} format 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+tabWidth: 4
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+### Heading
+
+Paragraph preceding ordered list
+
+1. \`some command\`
+
+    Extra details about command 1
+
+2. item 2
+
+    Additional details for line 2
+
+3. item 3
+
+    Additional details for line 3
+
+Following paragraph outside the list
+
+=====================================output=====================================
+### Heading
+
+Paragraph preceding ordered list
+
+1. \`some command\`
+
+    Extra details about command 1
+
+2. item 2
+
+    Additional details for line 2
+
+3. item 3
+
+    Additional details for line 3
+
+Following paragraph outside the list
+
+================================================================================
+`;
+
+exports[`ordered.md format 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+### Heading
+
+Paragraph preceding ordered list
+
+1. \`some command\`
+
+    Extra details about command 1
+
+2. item 2
+
+    Additional details for line 2
+
+3. item 3
+
+    Additional details for line 3
+
+Following paragraph outside the list
+
+=====================================output=====================================
+### Heading
+
+Paragraph preceding ordered list
+
+1. \`some command\`
+
+   Extra details about command 1
+
+2. item 2
+
+   Additional details for line 2
+
+3. item 3
+
+   Additional details for line 3
+
+Following paragraph outside the list
+
+================================================================================
+`;

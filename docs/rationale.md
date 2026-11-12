@@ -338,6 +338,10 @@ const result =
 
 If possible, prefer comments that operate on line ranges (e.g. `eslint-disable` and `eslint-enable`) or on the statement level (e.g. `/* istanbul ignore next */`), they are even safer. It’s possible to disallow using `eslint-disable-line` and `eslint-disable-next-line` comments using [`eslint-plugin-eslint-comments`](https://github.com/mysticatea/eslint-plugin-eslint-comments).
 
+### Markdown list indentation
+
+Content inside a Markdown list item is indented to line up with the end of the list marker (for example, 3 spaces for `1. `), so that the output stays valid and keeps the content inside the item. This can produce an indentation that is not a multiple of `tabWidth`. If you need a 4-space indentation, use an aligned list (`1.  item`) which Prettier preserves, or set `tabWidth` to `4`. Tools that enforce a fixed indentation, such as EditorConfig checkers, may need an exception for Markdown files.
+
 ## Disclaimer about non-standard syntax
 
 Prettier is often able to recognize and format non-standard syntax such as ECMAScript early-stage proposals and Markdown syntax extensions not defined by any specification. The support for such syntax is considered best-effort and experimental. Incompatibilities may be introduced in any release and should not be viewed as breaking changes.
