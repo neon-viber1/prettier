@@ -1,4 +1,4 @@
-#### Preserve indentation of multi-line expression blocks in MDX (#17792 by @fisker)
+#### Preserve indentation of multi-line expression blocks in MDX (#NNNN)
 
 <!-- prettier-ignore -->
 ```mdx
