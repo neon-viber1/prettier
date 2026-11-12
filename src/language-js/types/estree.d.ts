@@ -20,6 +20,7 @@ type PrettierCommentAdditionalProperties = {
   trailing?: boolean;
   leading?: boolean;
   marker?: string | symbol;
+  mustBreakAfter?: boolean;
 };
 
 type FlowAdditionalNode = {

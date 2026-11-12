@@ -29,6 +29,9 @@ import { printSemicolon, printTrailingComma } from "./miscellaneous.js";
 - `ObjectTypeAnnotation` (Flow)
 - `RecordDeclarationBody` (Flow)
 */
+const isJsDocComment = (comment) =>
+  comment.value.startsWith("*") && !comment.value.startsWith("**/");
+
 function printClassBody(path, options, print) {
   const { node } = path;
   const parts = [];
@@ -42,6 +45,21 @@ function printClassBody(path, options, print) {
     isFlowTypeAnnotation && node.exact ? ["{|", "|}"] : "{}";
   let isEmpty = true;
   let firstMember;
+
+  // TypeScript only recognizes JSDoc comments that start on a new line
+  let hasLeadingJsDocComment = false;
+  if (node.type === "TSTypeLiteral" || node.type === "TSInterfaceBody") {
+    for (const member of node.members ?? node.body) {
+      for (const comment of getComments(
+        member,
+        CommentCheckFlags.Leading | CommentCheckFlags.Block,
+        isJsDocComment,
+      )) {
+        comment.mustBreakAfter = true;
+        hasLeadingJsDocComment = true;
+      }
+    }
+  }
 
   iterateClassMembersPath(path, ({ node, next, isLast }) => {
     firstMember ??= node;
@@ -106,6 +124,7 @@ function printClassBody(path, options, print) {
   if (isObjectType) {
     const shouldBreak =
       hasComment(node, CommentCheckFlags.Dangling | CommentCheckFlags.Line) ||
+      hasLeadingJsDocComment ||
       (options.objectWrap === "preserve" &&
         firstMember &&
         hasNewlineInRange(
