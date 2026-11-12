@@ -1043,6 +1043,79 @@ test.each\`
 ================================================================================
 `;
 
+exports[`jest-each-unicode-width.js - {"arrowParens":"avoid"} format 1`] = `
+====================================options=====================================
+arrowParens: "avoid"
+parsers: ["babel", "flow", "typescript"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+it.each\`
+    input                                          | someArray
+    \${'Letters only äÄöÖüÜß'}                      | \${['A', 'B', 'C', 'D', 'E']}
+    \${'Letters äÄöÖüÜß And 1+2&3~\` And ©®'}        | \${['B', 'C', 'D', 'E']}
+    \${'Letters äÄöÖüÜß And 1+2&3~\` And ©® And ™'}  | \${['D', 'E']}
+    \${'tab\\tCR\\\\r\\\\nnewline'}                        | \${['C', 'E']}
+    \${'emoji 🩲'}                                  | \${[]}
+    \${'whatever this is (❁´◡\`❁)'}                  | \${[]}
+  \`('should test input "$input" correctly for each datatype', ({ input, someArray }) => {
+    expect(true);
+  });
+
+=====================================output=====================================
+it.each\`
+  input                                         | someArray
+  \${"Letters only äÄöÖüÜß"}                     | \${["A", "B", "C", "D", "E"]}
+  \${"Letters äÄöÖüÜß And 1+2&3~\` And ©®"}       | \${["B", "C", "D", "E"]}
+  \${"Letters äÄöÖüÜß And 1+2&3~\` And ©® And ™"} | \${["D", "E"]}
+  \${"tab\\tCR\\\\r\\\\nnewline"}                     | \${["C", "E"]}
+  \${"emoji 🩲"}                                 | \${[]}
+  \${"whatever this is (❁´◡\`❁)"}                 | \${[]}
+\`(
+  'should test input "$input" correctly for each datatype',
+  ({ input, someArray }) => {
+    expect(true);
+  },
+);
+
+================================================================================
+`;
+
+exports[`jest-each-unicode-width.js format 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+it.each\`
+    input                                          | someArray
+    \${'Letters only äÄöÖüÜß'}                      | \${['A', 'B', 'C', 'D', 'E']}
+    \${'Letters äÄöÖüÜß And 1+2&3~\` And ©®'}        | \${['B', 'C', 'D', 'E']}
+    \${'Letters äÄöÖüÜß And 1+2&3~\` And ©® And ™'}  | \${['D', 'E']}
+    \${'tab\\tCR\\\\r\\\\nnewline'}                        | \${['C', 'E']}
+    \${'emoji 🩲'}                                  | \${[]}
+    \${'whatever this is (❁´◡\`❁)'}                  | \${[]}
+  \`('should test input "$input" correctly for each datatype', ({ input, someArray }) => {
+    expect(true);
+  });
+
+=====================================output=====================================
+it.each\`
+  input                                         | someArray
+  \${"Letters only äÄöÖüÜß"}                     | \${["A", "B", "C", "D", "E"]}
+  \${"Letters äÄöÖüÜß And 1+2&3~\` And ©®"}       | \${["B", "C", "D", "E"]}
+  \${"Letters äÄöÖüÜß And 1+2&3~\` And ©® And ™"} | \${["D", "E"]}
+  \${"tab\\tCR\\\\r\\\\nnewline"}                     | \${["C", "E"]}
+  \${"emoji 🩲"}                                 | \${[]}
+  \${"whatever this is (❁´◡\`❁)"}                 | \${[]}
+\`(
+  'should test input "$input" correctly for each datatype',
+  ({ input, someArray }) => {
+    expect(true);
+  },
+);
+
+================================================================================
+`;
+
 exports[`optional.js - {"arrowParens":"avoid"} format 1`] = `
 ====================================options=====================================
 arrowParens: "avoid"
