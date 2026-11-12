@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`param.ts - {"objectWrap":"collapse"} format 1`] = `
+====================================options=====================================
+objectWrap: "collapse"
+parsers: ["typescript"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+function main(options:{
+  a:number,b:number}) {
+  return null
+}
+
+type Options = {
+  a:number,b:number}
+
+function single(options: { a: number, b: number }) {}
+
+const arrow = (options:{
+  a:number,b:number}) => {};
+
+class A {
+  method(options:{
+    a:number,b:number}) {}
+}
+
+function multi(x: number, options:{
+  a:number,b:number}) {}
+
+=====================================output=====================================
+function main(options: { a: number; b: number }) {
+  return null;
+}
+
+type Options = { a: number; b: number };
+
+function single(options: { a: number; b: number }) {}
+
+const arrow = (options: { a: number; b: number }) => {};
+
+class A {
+  method(options: { a: number; b: number }) {}
+}
+
+function multi(x: number, options: { a: number; b: number }) {}
+
+================================================================================
+`;
+
+exports[`param.ts format 1`] = `
+====================================options=====================================
+parsers: ["typescript"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+function main(options:{
+  a:number,b:number}) {
+  return null
+}
+
+type Options = {
+  a:number,b:number}
+
+function single(options: { a: number, b: number }) {}
+
+const arrow = (options:{
+  a:number,b:number}) => {};
+
+class A {
+  method(options:{
+    a:number,b:number}) {}
+}
+
+function multi(x: number, options:{
+  a:number,b:number}) {}
+
+=====================================output=====================================
+function main(options: {
+  a: number;
+  b: number;
+}) {
+  return null;
+}
+
+type Options = {
+  a: number;
+  b: number;
+};
+
+function single(options: { a: number; b: number }) {}
+
+const arrow = (options: {
+  a: number;
+  b: number;
+}) => {};
+
+class A {
+  method(options: {
+    a: number;
+    b: number;
+  }) {}
+}
+
+function multi(
+  x: number,
+  options: {
+    a: number;
+    b: number;
+  },
+) {}
+
+================================================================================
+`;
