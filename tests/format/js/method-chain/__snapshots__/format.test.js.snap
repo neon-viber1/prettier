@@ -1528,6 +1528,40 @@ const Profile2 = view.with({ name }).as((props) => (
 ================================================================================
 `;
 
+exports[`sequence-expression.js format 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+for(let[l,n]of Object.entries(e)){let[r,I,a]=n,[s,o]=r.split(/ /),d=Object.assign({method:s,url:o},I);f3.has(t)||f3.set(t,new Map),f3.get(t).set(l,{scope:t,methodName:l,endpointDefaults:d,decorations:a})}
+
+(a.has(t) || a.set(t, new Map()), f3.get(t).set(l, { scope: t, methodName: l, endpointDefaults: d, decorations: a }));
+
+=====================================output=====================================
+for (let [l, n] of Object.entries(e)) {
+  let [r, I, a] = n,
+    [s, o] = r.split(/ /),
+    d = Object.assign({ method: s, url: o }, I);
+  (f3.has(t) || f3.set(t, new Map()),
+    f3.get(t).set(l, {
+      scope: t,
+      methodName: l,
+      endpointDefaults: d,
+      decorations: a,
+    }));
+}
+
+(a.has(t) || a.set(t, new Map()),
+  f3.get(t).set(l, {
+    scope: t,
+    methodName: l,
+    endpointDefaults: d,
+    decorations: a,
+  }));
+
+================================================================================
+`;
+
 exports[`short-names.js format 1`] = `
 ====================================options=====================================
 parsers: ["babel", "flow", "typescript"]
