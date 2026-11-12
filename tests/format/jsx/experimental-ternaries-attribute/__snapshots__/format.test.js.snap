@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`attribute.jsx - {"experimentalTernaries":true,"useTabs":true} format 1`] = `
+====================================options=====================================
+experimentalTernaries: true
+parsers: ["babel"]
+useTabs: true
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+const foo1 = (
+  <Foo
+    prop={
+      bar ? "bar"
+      : baz ?
+        "baz"
+      : <Bar
+          prop={"This is a really long value to make sure that this wraps"}
+        />
+    }
+  />
+);
+
+const foo2 = (
+  <Foo
+    prop={
+      bar ? "bar"
+      : baz ?
+        "baz"
+      : <Bar
+          prop={"This is a really long value to make sure that this wraps"}
+        />
+      //comment
+    }
+  />
+);
+
+const foo3 = (
+  <Foo
+    prop={
+      bar ? "bar"
+      : baz ?
+        "baz"
+      : <Bar
+          prop={"This is a really long value to make sure that this wraps"}
+        />
+      /* comment */
+    }
+  />
+);
+
+=====================================output=====================================
+const foo1 = (
+	<Foo
+		prop={
+			bar ? "bar"
+			: baz ?
+				"baz"
+			:	<Bar prop={"This is a really long value to make sure that this wraps"} />
+		}
+	/>
+);
+
+const foo2 = (
+	<Foo
+		prop={
+			bar ? "bar"
+			: baz ?
+				"baz"
+			:	<Bar prop={"This is a really long value to make sure that this wraps"} />
+			//comment
+		}
+	/>
+);
+
+const foo3 = (
+	<Foo
+		prop={
+			bar ? "bar"
+			: baz ?
+				"baz"
+			:	<Bar prop={"This is a really long value to make sure that this wraps"} />
+			/* comment */
+		}
+	/>
+);
+
+================================================================================
+`;
+
+exports[`attribute.jsx - {"experimentalTernaries":true} format 1`] = `
+====================================options=====================================
+experimentalTernaries: true
+parsers: ["babel"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+const foo1 = (
+  <Foo
+    prop={
+      bar ? "bar"
+      : baz ?
+        "baz"
+      : <Bar
+          prop={"This is a really long value to make sure that this wraps"}
+        />
+    }
+  />
+);
+
+const foo2 = (
+  <Foo
+    prop={
+      bar ? "bar"
+      : baz ?
+        "baz"
+      : <Bar
+          prop={"This is a really long value to make sure that this wraps"}
+        />
+      //comment
+    }
+  />
+);
+
+const foo3 = (
+  <Foo
+    prop={
+      bar ? "bar"
+      : baz ?
+        "baz"
+      : <Bar
+          prop={"This is a really long value to make sure that this wraps"}
+        />
+      /* comment */
+    }
+  />
+);
+
+=====================================output=====================================
+const foo1 = (
+  <Foo
+    prop={
+      bar ? "bar"
+      : baz ?
+        "baz"
+      : <Bar
+          prop={"This is a really long value to make sure that this wraps"}
+        />
+    }
+  />
+);
+
+const foo2 = (
+  <Foo
+    prop={
+      bar ? "bar"
+      : baz ?
+        "baz"
+      : <Bar
+          prop={"This is a really long value to make sure that this wraps"}
+        />
+      //comment
+    }
+  />
+);
+
+const foo3 = (
+  <Foo
+    prop={
+      bar ? "bar"
+      : baz ?
+        "baz"
+      : <Bar
+          prop={"This is a really long value to make sure that this wraps"}
+        />
+      /* comment */
+    }
+  />
+);
+
+================================================================================
+`;
