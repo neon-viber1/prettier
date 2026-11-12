@@ -126,7 +126,10 @@ function printFunctionParameters(
   //     }                     b,
   //   )                     ) => {
   //                         })
-  if (shouldExpandParameters && !isDecoratedFunction(path)) {
+  if (
+    shouldExpandParameters &&
+    !(shouldHugParameters && isDecoratedFunction(path))
+  ) {
     if (willBreak(typeParametersDoc) || willBreak(printed)) {
       // Removing lines in this case leads to broken or ugly output
       throw new ArgExpansionBailout();

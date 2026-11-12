@@ -259,3 +259,96 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
 
 ================================================================================
 `;
+
+exports[`nested-call-variable-declarator.tsx format 1`] = `
+====================================options=====================================
+parsers: ["typescript"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx()((
+  props: xxxxxxxxxxxxx,
+) => {
+  //
+});
+
+const x = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx((
+  props: xxxxxxxxxxxxx,
+) => {
+  //
+});
+
+const x = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx()((
+  props: xxxxxxxxxxxxx,
+) => {
+  //
+});
+
+x = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx()((
+  props: xxxxxxxxxxxxx,
+) => {
+  //
+});
+
+export default xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx()((
+  props: xxxxxxxxxxxxx,
+) => {
+  //
+});
+
+const y = xxxxxxxxxxxxxxxxxxxxxxxxx()(yyyyyyyyyyyyyyyyyyyyyyyyyyyy())((
+  props: xxxxxxxxxxxxx,
+) => {
+  //
+});
+
+const z = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx()((
+  props: { a: string },
+) => {
+  //
+});
+
+=====================================output=====================================
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx()(
+  (props: xxxxxxxxxxxxx) => {
+    //
+  },
+);
+
+const x = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx(
+  (props: xxxxxxxxxxxxx) => {
+    //
+  },
+);
+
+const x = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx()(
+  (props: xxxxxxxxxxxxx) => {
+    //
+  },
+);
+
+x = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx()(
+  (props: xxxxxxxxxxxxx) => {
+    //
+  },
+);
+
+export default xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx()(
+  (props: xxxxxxxxxxxxx) => {
+    //
+  },
+);
+
+const y = xxxxxxxxxxxxxxxxxxxxxxxxx()(yyyyyyyyyyyyyyyyyyyyyyyyyyyy())(
+  (props: xxxxxxxxxxxxx) => {
+    //
+  },
+);
+
+const z = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx()((props: {
+  a: string;
+}) => {
+  //
+});
+
+================================================================================
+`;
