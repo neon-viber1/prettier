@@ -1,0 +1,23 @@
+.foo {
+  box-shadow: 2px 2px 4px gray,
+    /* long long long long long long long long long long long long comment */
+    -1px -1px 2px lightgray;
+}
+
+.bar {
+  box-shadow: 2px 2px 4px gray,
+    /* short */
+    -1px -1px 2px lightgray;
+}
+
+.baz {
+  box-shadow: 2px 2px 4px gray,
+    /* inline */ -1px -1px 2px lightgray;
+}
+
+.qux {
+  box-shadow: /* first */
+    2px 2px 4px gray,
+    /* a */ /* b */
+    -1px -1px 2px lightgray;
+}
