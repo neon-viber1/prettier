@@ -71,6 +71,10 @@ function embed(path, options) {
           parser: "babel",
         });
     case "jsx":
+      // The JSX formatter would collapse list markers into plain text
+      if (/^(?:[-*+]|\d+[.)])[\t ]/mu.test(node.value)) {
+        return null;
+      }
       return (textToDoc) =>
         textToDoc(`<$>${node.value}</$>`, {
           parser: "__js_expression",
