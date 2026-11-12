@@ -716,3 +716,86 @@ html\`<div
 
 ================================================================================
 `;
+
+exports[`tag-name-interpolation.js - {"htmlWhitespaceSensitivity":"ignore"} format 1`] = `
+====================================options=====================================
+htmlWhitespaceSensitivity: "ignore"
+parsers: ["babel", "flow", "typescript"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+const template = () => html\`
+		<\${For} each=\${() => this.items}>
+			       \${() => this.content}
+		   </\${For}>
+	\`;
+
+const template2 = () => html\`
+		<\${For} each=\${() => this.items}>
+			       \${() => this.content}
+		   </>
+	\`;
+
+const selfClosing = html\`<\${Comp} a=\${1} /><div><\${A}><\${B}>x</></\${A}></div>\`;
+
+const unmatched = html\`<div></></div>\`;
+
+=====================================output=====================================
+const template = () => html\`
+  <\${For} each=\${() => this.items}>\${() => this.content}</\${For}>
+\`;
+
+const template2 = () => html\`
+  <\${For} each=\${() => this.items}>\${() => this.content}</>
+\`;
+
+const selfClosing = html\`
+  <\${Comp} a=\${1} />
+  <div>
+    <\${A}><\${B}>x</></\${A}>
+  </div>
+\`;
+
+const unmatched = html\`<div></></div>\`;
+
+================================================================================
+`;
+
+exports[`tag-name-interpolation.js format 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+const template = () => html\`
+		<\${For} each=\${() => this.items}>
+			       \${() => this.content}
+		   </\${For}>
+	\`;
+
+const template2 = () => html\`
+		<\${For} each=\${() => this.items}>
+			       \${() => this.content}
+		   </>
+	\`;
+
+const selfClosing = html\`<\${Comp} a=\${1} /><div><\${A}><\${B}>x</></\${A}></div>\`;
+
+const unmatched = html\`<div></></div>\`;
+
+=====================================output=====================================
+const template = () => html\`
+  <\${For} each=\${() => this.items}> \${() => this.content} </\${For}>
+\`;
+
+const template2 = () => html\`
+  <\${For} each=\${() => this.items}> \${() => this.content} </>
+\`;
+
+const selfClosing = html\`<\${Comp} a=\${1} />
+  <div>
+    <\${A}><\${B}>x</></\${A}>
+  </div>\`;
+
+const unmatched = html\`<div></></div>\`;
+
+================================================================================
+`;
