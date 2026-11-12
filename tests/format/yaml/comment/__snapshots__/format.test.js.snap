@@ -38,12 +38,12 @@ empty_content:
 =====================================output=====================================
 a: # a.trailingComment
   123
-  # implicitMappingValue
+# implicitMappingValue
 
 ? b
   # explicitMappingKey
 : c
-  # explicitMappingValue
+# explicitMappingValue
 
 d:
   - 123
@@ -648,6 +648,52 @@ parsers: ["yaml"]
 
 =====================================output=====================================
 #hello world
+
+================================================================================
+`;
+
+exports[`scalar-value-end-comment.yml format 1`] = `
+====================================options=====================================
+parsers: ["yaml"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+a: string
+  # a badly indented comment
+b: "quoted"
+    # one
+    # two
+c:
+  d: 'single'
+    # nested
+  e: 1
+
+=====================================output=====================================
+a: string
+# a badly indented comment
+b: "quoted"
+# one
+# two
+c:
+  d: "single"
+  # nested
+  e: 1
+
+================================================================================
+`;
+
+exports[`scalar-value-end-comment-sequence.yml format 1`] = `
+====================================options=====================================
+parsers: ["yaml"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+- a: string
+    # comment
+  b: 1
+
+=====================================output=====================================
+- a: string
+  # comment
+  b: 1
 
 ================================================================================
 `;

@@ -1,0 +1,9 @@
+a: string
+  # a badly indented comment
+b: "quoted"
+    # one
+    # two
+c:
+  d: 'single'
+    # nested
+  e: 1
