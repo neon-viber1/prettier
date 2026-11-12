@@ -2,6 +2,7 @@ import {
   breakParent,
   dedentToRoot,
   group,
+  hardline,
   ifBreak,
   indent,
   indentIfBreak,
@@ -110,6 +111,10 @@ function printElement(path, options, print) {
       node.isWhitespaceSensitive &&
       node.isIndentationSensitive
     ) {
+      if (node.name === "pre") {
+        // Preserve whether the source had a line break right after the opening tag
+        return node.hasIgnorableFirstLf ? dedentToRoot(hardline) : "";
+      }
       return dedentToRoot(softline);
     }
     return softline;
