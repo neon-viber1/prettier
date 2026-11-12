@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ignored.vue format 1`] = `
+====================================options=====================================
+parsers: ["vue"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+<script setup lang="ts">
+</script>
+
+<template>
+    <UTable
+      v-model:pagination="(searchParams as PaginationState /* prettier-ignore */)"
+      :other="(searchParams as PaginationState /* prettier-ignore */)"
+      :no-parens="searchParams as PaginationState /* prettier-ignore */"
+    />
+</template>
+
+=====================================output=====================================
+<script setup lang="ts"></script>
+
+<template>
+  <UTable
+    v-model:pagination="(searchParams as PaginationState /* prettier-ignore */)"
+    :other="(searchParams as PaginationState /* prettier-ignore */)"
+    :no-parens="searchParams as PaginationState /* prettier-ignore */"
+  />
+</template>
+
+================================================================================
+`;
+
+exports[`not-ignored.vue format 1`] = `
+====================================options=====================================
+parsers: ["vue"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+<script setup lang="ts">
+</script>
+
+<template>
+    <UTable
+      v-model:pagination="(searchParams as PaginationState)"
+    />
+</template>
+
+=====================================output=====================================
+<script setup lang="ts"></script>
+
+<template>
+  <UTable v-model:pagination="searchParams as PaginationState" />
+</template>
+
+================================================================================
+`;
