@@ -132,18 +132,19 @@ function printClassBody(path, options, print) {
     // to create another group so that the object breaks before the return
     // type
     if (
-      path.match(
+      !shouldBreak &&
+      (path.match(
         undefined,
         (node, name) => name === "typeAnnotation",
         (node, name) => name === "typeAnnotation",
         shouldHugTheOnlyParameter,
       ) ||
-      path.match(
-        undefined,
-        (node, name) =>
-          node.type === "FunctionTypeParam" && name === "typeAnnotation",
-        shouldHugTheOnlyParameter,
-      )
+        path.match(
+          undefined,
+          (node, name) =>
+            node.type === "FunctionTypeParam" && name === "typeAnnotation",
+          shouldHugTheOnlyParameter,
+        ))
     ) {
       return content;
     }
