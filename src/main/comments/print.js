@@ -40,7 +40,9 @@ function printLeadingComment(path, options) {
   if (isBlock) {
     /** @type {HardLine | Line | " "} */
     let lineBreak = " ";
-    if (hasNewline(originalText, locEnd(comment))) {
+    if (comment.mustBreakAfter) {
+      lineBreak = hardline;
+    } else if (hasNewline(originalText, locEnd(comment))) {
       if (hasNewline(originalText, locStart(comment), { backwards: true })) {
         lineBreak = hardline;
       } else {
