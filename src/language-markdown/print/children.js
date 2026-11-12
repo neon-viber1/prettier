@@ -111,7 +111,13 @@ function shouldPrePrintDoubleHardline(path, options) {
       parent.type === "listItem" &&
       (node.type === "list" || !path.callParent(isLooseListItem));
   }
-  const isPrevNodePrettierIgnore = isPrettierIgnore(previous) === "next";
+  const isPrevNodePrettierIgnore =
+    isPrettierIgnore(previous) === "next" &&
+    // An html block with the comment embedded keeps the blank line that ended it
+    !(
+      previous.type === "html" &&
+      !/^<!--\s*prettier-ignore\s*-->$/.test(previous.value)
+    );
   const isBlockHtmlWithoutBlankLineBetweenPrevHtml =
     node.type === "html" &&
     previous.type === "html" &&
