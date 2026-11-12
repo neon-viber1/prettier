@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`flow-comment.js format 1`] = `
+====================================options=====================================
+parsers: ["flow", "babel"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+module.exports = {
+  cacheStores: ({FileStore}) => {
+    return [new FileStore({root: __dirname})];
+  },
+} /*:: as InputConfigT*/;
+
+foo() /*:: as T*/;
+
+a /*:: as T*/
+b;
+
+function f() {
+  return a /*:: as T*/;
+}
+
+c; /*:: as T*/
+
+d /* plain */;
+
+=====================================output=====================================
+module.exports = {
+  cacheStores: ({ FileStore }) => {
+    return [new FileStore({ root: __dirname })];
+  },
+} /*:: as InputConfigT*/;
+
+foo() /*:: as T*/;
+
+a; /*:: as T*/
+b;
+
+function f() {
+  return a /*:: as T*/;
+}
+
+c; /*:: as T*/
+
+d; /* plain */
+
+================================================================================
+`;
