@@ -1,0 +1,9 @@
+{
+  "singleQuote": true,
+  "tabWidth": 4,
+  "overrides": [
+    { "files": "*.scss", "options": { "singleQuote": false } },
+    { "files": "*.md", "options": { "proseWrap": "never" } },
+    { "files": "*.less", "excludeFiles": "*.less", "options": { "singleQuote": false } }
+  ]
+}

@@ -134,3 +134,4 @@ function inferParser(options, fileInfo) {
 }
 
 export default inferParser;
+export { getLanguageByLanguageName };

@@ -5,6 +5,7 @@ The following are bundled here since they are used in API too
 - leven.closestMatch
 - picocolors
 */
+import path from "node:path";
 import { createTwoFilesPatch } from "diff";
 import fastGlob from "fast-glob";
 import { closestMatch as closetLevenshteinMatch } from "leven";
@@ -18,6 +19,7 @@ import {
   resolveConfigFile,
 } from "./config/resolve-config.js";
 import * as core from "./main/core.js";
+import { setEmbeddedConfigResolver } from "./main/embedded-config.js";
 import { formatOptionsHiddenDefaults } from "./main/normalize-format-options.js";
 import normalizeOptions from "./main/normalize-options.js";
 import * as optionCategories from "./main/option-categories.js";
@@ -63,6 +65,29 @@ function withPlugins(
     return fn(...args);
   };
 }
+
+setEmbeddedConfigResolver(async (filepath, extension) => {
+  const embeddedFilepath = path.join(
+    path.dirname(path.resolve(filepath)),
+    `embedded${extension}`,
+  );
+  const [hostConfig, embeddedConfig] = await Promise.all([
+    resolveConfig(filepath, { editorconfig: false }),
+    resolveConfig(embeddedFilepath, { editorconfig: false }),
+  ]);
+  if (!embeddedConfig) {
+    return;
+  }
+
+  // Only options that differ from the host file's config are applied, so
+  // options set via CLI or API are not replaced.
+  return Object.fromEntries(
+    Object.entries(embeddedConfig).filter(
+      ([key, value]) =>
+        key !== "plugins" && key !== "parser" && hostConfig?.[key] !== value,
+    ),
+  );
+});
 
 const formatWithCursor = withPlugins(core.formatWithCursor);
 
