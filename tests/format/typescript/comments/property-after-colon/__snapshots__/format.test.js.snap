@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`property.ts format 1`] = `
+====================================options=====================================
+parsers: ["typescript"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+type A = {
+  property: // Comment
+  B;
+
+  property2: /* Comment */
+  B
+  
+  property3: /* Comment */
+  B
+}
+
+const A2 = {
+  property: // Comment
+  B,
+
+  property2: /* Comment */
+  B,
+  
+  property3: /* Comment */ B
+}
+
+interface I {
+  a: // Comment
+  B;
+  b: /* Comment */
+  B;
+}
+
+=====================================output=====================================
+type A = {
+  property: B; // Comment
+
+  property2: /* Comment */ B;
+
+  property3: /* Comment */ B;
+};
+
+const A2 = {
+  property: B, // Comment
+
+  property2: /* Comment */ B,
+
+  property3: /* Comment */ B,
+};
+
+interface I {
+  a: B; // Comment
+  b: /* Comment */ B;
+}
+
+================================================================================
+`;
