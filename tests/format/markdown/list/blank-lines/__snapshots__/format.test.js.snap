@@ -110,3 +110,147 @@ parsers: ["markdown", "mdx"]
 
 ================================================================================
 `;
+
+exports[`loose-sublist-examples.md format 1`] = `
+====================================options=====================================
+parsers: ["markdown", "mdx"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+# Example 1
+
+- a
+  x
+  y
+  z
+- b
+
+# Example 2
+
+- a
+
+  x
+  y
+  z
+
+- b
+
+# Example 3
+
+- a
+
+  - x
+  - y
+  - z
+
+- b
+
+# Example 4
+
+- a
+
+  - x
+  - y
+  - z
+
+  some text
+
+- b
+
+=====================================output=====================================
+# Example 1
+
+- a
+  x
+  y
+  z
+- b
+
+# Example 2
+
+- a
+
+  x
+  y
+  z
+
+- b
+
+# Example 3
+
+- a
+
+  - x
+  - y
+  - z
+
+- b
+
+# Example 4
+
+- a
+
+  - x
+  - y
+  - z
+
+  some text
+
+- b
+
+================================================================================
+`;
+
+exports[`loose-sublist-sample.md format 1`] = `
+====================================options=====================================
+parsers: ["markdown", "mdx"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+# Recording
+
+1. Go to **File / Settings**
+2. In the **Audio** tab and configure devices as follows
+
+   - **Desktop Audio**: Disabled
+   - **Mic/Auxilary Audio**: ADAT
+
+   ![OBS](a.png)
+
+3. In the **Output** tab
+
+   <img src="a.png" alt="x" width="45%">
+
+4. Open **Edit**
+
+   - **Mic/Aux**: Tick track 1 only
+   - **Mic/Aux 2**: Tick track 2 only
+
+   ![OBS](b.png)
+
+5. Done
+
+=====================================output=====================================
+# Recording
+
+1. Go to **File / Settings**
+2. In the **Audio** tab and configure devices as follows
+
+   - **Desktop Audio**: Disabled
+   - **Mic/Auxilary Audio**: ADAT
+
+   ![OBS](a.png)
+
+3. In the **Output** tab
+
+   <img src="a.png" alt="x" width="45%">
+
+4. Open **Edit**
+
+   - **Mic/Aux**: Tick track 1 only
+   - **Mic/Aux 2**: Tick track 2 only
+
+   ![OBS](b.png)
+
+5. Done
+
+================================================================================
+`;
