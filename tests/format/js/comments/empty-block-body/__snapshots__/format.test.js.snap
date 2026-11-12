@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`statements.js format 1`] = `
+====================================options=====================================
+parsers: ["babel"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+while(true) // Comment
+{}
+while(true) /* Comment */
+{}
+while(true)
+  /* Comment */
+{}
+for (let a = 0; a < 10; a ++) // Comment
+{}
+for (let a = 0; a < 10; a ++) /* Comment */
+{}
+for (let a = 0; a < 10; a ++) 
+  /* Comment */
+{}
+if(true) // Comment
+{}
+if(true) /* Comment */
+{}
+for (const a in b) // Comment
+{}
+for (const a in b) /* Comment */
+{}
+for (const a of b)
+  /* Comment */
+{}
+if(true)
+  /* Comment */
+{}
+
+=====================================output=====================================
+while (true) {
+  // Comment
+}
+while (true) {
+  /* Comment */
+}
+while (true) {
+  /* Comment */
+}
+for (let a = 0; a < 10; a++) {
+  // Comment
+}
+for (let a = 0; a < 10; a++) {
+  /* Comment */
+}
+for (let a = 0; a < 10; a++) {
+  /* Comment */
+}
+if (true) {
+  // Comment
+}
+if (true) {
+  /* Comment */
+}
+for (const a in b) {
+  // Comment
+}
+for (const a in b) {
+  /* Comment */
+}
+for (const a of b) {
+  /* Comment */
+}
+if (true) {
+  /* Comment */
+}
+
+================================================================================
+`;

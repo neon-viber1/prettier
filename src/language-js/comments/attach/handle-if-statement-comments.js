@@ -7,7 +7,7 @@ import getNextNonSpaceNonCommentCharacter from "../../../utilities/get-next-non-
 import hasNewlineInRange from "../../../utilities/has-newline-in-range.js";
 import { locEnd, locStart } from "../../location/index.js";
 import { stripComments } from "../../utilities/strip-comments.js";
-import { isSingleLineComment } from "./utilities.js";
+import { addCommentToStatementBody, isSingleLineComment } from "./utilities.js";
 
 // There are often comments before the else clause of if statements like
 //
@@ -52,7 +52,7 @@ function handleIfStatementComments({
 
   // if comment is positioned between the condition and its body
   if (followingNode === enclosingNode.consequent) {
-    return addLeadingComment(followingNode, comment);
+    return addCommentToStatementBody(followingNode, comment);
   }
 
   if (
