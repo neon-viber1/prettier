@@ -338,7 +338,9 @@ function printMdast(path, options, print) {
     case "jsx":
       return node.value.trimEnd();
     case "esComment":
-      return ["{/* ", node.value, " */}"];
+      return node.value.includes("\n")
+        ? ["{/*", replaceEndOfLine(node.value, hardline), "*/}"]
+        : ["{/* ", node.value, " */}"];
     case "math":
       return [
         "$$",
