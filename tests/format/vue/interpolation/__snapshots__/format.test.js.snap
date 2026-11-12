@@ -96,6 +96,35 @@ parsers: ["vue"]
 ================================================================================
 `;
 
+exports[`inline-element-trailing-text.vue format 1`] = `
+====================================options=====================================
+parsers: ["vue"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+<template>
+  <p>
+    All quotes must be received on/or before <b>{{ endDateFormatted }}</b>.
+  </p>
+  <p>
+    Quotes must be received <span>{{ endDateFormatted }}</span>,
+    <a href="x">{{ a }}</a>) and <em>{{ b }}</em>x
+  </p>
+</template>
+
+=====================================output=====================================
+<template>
+  <p>
+    All quotes must be received on/or before <b>{{ endDateFormatted }}</b>.
+  </p>
+  <p>
+    Quotes must be received <span>{{ endDateFormatted }}</span>,
+    <a href="x">{{ a }}</a>) and <em>{{ b }}</em>x
+  </p>
+</template>
+
+================================================================================
+`;
+
 exports[`ng-non-bindable.vue format 1`] = `
 ====================================options=====================================
 parsers: ["vue"]
