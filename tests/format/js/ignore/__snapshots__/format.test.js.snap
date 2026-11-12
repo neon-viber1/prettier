@@ -416,3 +416,24 @@ parsers: ["babel", "flow", "typescript"]
 
 ================================================================================
 `;
+
+exports[`trailing-comment-spacing.js format 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+const foo    = AVeryLongLine();       // prettier-ignore
+const bar123 = AnotherVeryLongLine(); // prettier-ignore
+
+const a   = 1;      // prettier-ignore
+const bcd = 22;     // prettier-ignore
+
+=====================================output=====================================
+const foo    = AVeryLongLine(); // prettier-ignore
+const bar123 = AnotherVeryLongLine(); // prettier-ignore
+
+const a   = 1; // prettier-ignore
+const bcd = 22; // prettier-ignore
+
+================================================================================
+`;
