@@ -82,6 +82,20 @@ matrix(
 );
 ```
 
+The ignore applies to the node, not to the line. Whitespace between the node and a trailing `// prettier-ignore` comment is outside the node, so it is normalized to a single space:
+
+<!-- prettier-ignore -->
+```js
+const foo    = AVeryLongLine();       // prettier-ignore
+```
+
+will be transformed to:
+
+<!-- prettier-ignore -->
+```js
+const foo    = AVeryLongLine(); // prettier-ignore
+```
+
 ## JSX
 
 ```jsx
