@@ -47,6 +47,22 @@ const tokenizeEsSyntax = (eat, value) => {
 
 tokenizeEsSyntax.notInBlock = true;
 
+// Multi-line `{...}` expression block, kept verbatim to preserve indentation
+const tokenizeEsExpression = (eat, value) => {
+  if (!value.startsWith("{") || ES_COMMENT_REGEX.test(value)) {
+    return;
+  }
+
+  const index = value.indexOf(EMPTY_NEWLINE);
+  const subvalue = index === -1 ? value : value.slice(0, index);
+
+  if (subvalue.includes("\n") && subvalue.trimEnd().endsWith("}")) {
+    return eat(subvalue)({ type: "esExpression", value: subvalue });
+  }
+};
+
+tokenizeEsExpression.notInBlock = true;
+
 tokenizeEsSyntax.locator = (value /* , fromIndex*/) =>
   isImportOrExport(value) ? -1 : 1;
 
@@ -76,7 +92,10 @@ const esSyntax = function () {
   blockTokenizers.esSyntax = tokenizeEsSyntax;
   inlineTokenizers.esComment = tokenizeEsComment;
 
+  blockTokenizers.esExpression = tokenizeEsExpression;
+
   blockMethods.splice(blockMethods.indexOf("paragraph"), 0, "esSyntax");
+  blockMethods.splice(blockMethods.indexOf("paragraph"), 0, "esExpression");
   inlineMethods.splice(inlineMethods.indexOf("text"), 0, "esComment");
 };
 

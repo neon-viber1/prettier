@@ -32,6 +32,7 @@ const visitorKeys = generateReferenceSharedVisitorKeys({
   import: [],
   export: [],
   esComment: [],
+  esExpression: [],
   jsx: [],
   math: [],
   inlineMath: [],

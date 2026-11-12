@@ -113,6 +113,89 @@ foo(
 ================================================================================
 `;
 
+exports[`iife-indentation.mdx - {"semi":false} format 1`] = `
+====================================options=====================================
+parsers: ["mdx"]
+semi: false
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+import     {     Baz } from     './Fixture'
+
+{(() => {
+  const diagramData = {
+    height: 2,
+    nodes: [
+      { id: "noise", label: "Mallet", x: 0, ports: { out: ["out"] } },
+    ],
+  };
+  return (<Diagram diagram={diagramData} />);
+})()}
+
+{items.map(item => {
+  return item;
+})}
+
+=====================================output=====================================
+import { Baz } from "./Fixture"
+
+{(() => {
+  const diagramData = {
+    height: 2,
+    nodes: [
+      { id: "noise", label: "Mallet", x: 0, ports: { out: ["out"] } },
+    ],
+  };
+  return (<Diagram diagram={diagramData} />);
+})()}
+
+{items.map(item => {
+  return item;
+})}
+
+================================================================================
+`;
+
+exports[`iife-indentation.mdx format 1`] = `
+====================================options=====================================
+parsers: ["mdx"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+import     {     Baz } from     './Fixture'
+
+{(() => {
+  const diagramData = {
+    height: 2,
+    nodes: [
+      { id: "noise", label: "Mallet", x: 0, ports: { out: ["out"] } },
+    ],
+  };
+  return (<Diagram diagram={diagramData} />);
+})()}
+
+{items.map(item => {
+  return item;
+})}
+
+=====================================output=====================================
+import { Baz } from "./Fixture";
+
+{(() => {
+  const diagramData = {
+    height: 2,
+    nodes: [
+      { id: "noise", label: "Mallet", x: 0, ports: { out: ["out"] } },
+    ],
+  };
+  return (<Diagram diagram={diagramData} />);
+})()}
+
+{items.map(item => {
+  return item;
+})}
+
+================================================================================
+`;
+
 exports[`import-export.mdx - {"semi":false} format 1`] = `
 ====================================options=====================================
 parsers: ["mdx"]
