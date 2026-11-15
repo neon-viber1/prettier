@@ -13,7 +13,8 @@ function massageAstNode(original, cloned, parent) {
     original.type === "yaml" ||
     original.type === "import" ||
     original.type === "export" ||
-    original.type === "jsx"
+    original.type === "jsx" ||
+    original.type === "esExpression"
   ) {
     delete cloned.value;
   }
