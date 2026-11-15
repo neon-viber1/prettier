@@ -51,10 +51,25 @@ import { printOptionalToken } from "./miscellaneous.js";
 - `MemberExpression`
 - `OptionalMemberExpression`
 */
+// Expressions in a sequence that is itself an expression statement
+// (`a(), b.c().d();`) are printed like standalone expression statements,
+// otherwise the layout is not stable between the first and second format.
+function isExpressionStatementLike(path) {
+  let { parent, grandparent } = path;
+  if (parent.type === "ChainExpression") {
+    [parent, grandparent] = [grandparent, path.getParentNode(2)];
+  }
+  if (parent.type === "ExpressionStatement") {
+    return true;
+  }
+  return (
+    parent.type === "SequenceExpression" &&
+    grandparent?.type === "ExpressionStatement"
+  );
+}
+
 function printMemberChain(path, options, print) {
-  const isExpressionStatement =
-    (path.parent.type === "ChainExpression" ? path.grandparent : path.parent)
-      .type === "ExpressionStatement";
+  const isExpressionStatement = isExpressionStatementLike(path);
 
   // The first phase is to linearize the AST by traversing it down.
   //
