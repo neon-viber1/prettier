@@ -22,13 +22,42 @@ async function printEmbedHtmlLike(parser, textToDoc, print, path, options) {
   const composePlaceholder = (index) =>
     `PRETTIER_HTML_PLACEHOLDER_${index}_${counter}_IN_JS`;
 
-  const text = node.quasis
+  const rawText = node.quasis
     .map((quasi, index, quasis) =>
       index === quasis.length - 1
         ? quasi.value.cooked
         : quasi.value.cooked + composePlaceholder(index),
     )
     .join("");
+
+  // Closing tags whose names are placeholders (`</${Foo}>` or `</>`) must have
+  // the same name as the opening tag to be parsed. They are rewritten to the
+  // opener's placeholder, and restored in order after printing.
+  const closingTags = [];
+  const openPlaceholderTags = [];
+  const text = rawText.replaceAll(
+    new RegExp(
+      String.raw`<(\/?)(${composePlaceholder(String.raw`\d+`)})?(?=[\s/>])[^>]*>|<\/\s*>`,
+      "g",
+    ),
+    (match, closing, name) => {
+      if (match.startsWith("</")) {
+        if (name === undefined && !/^<\/\s*>$/.test(match)) {
+          return match;
+        }
+        const opener = openPlaceholderTags.pop();
+        if (opener === undefined) {
+          return match;
+        }
+        closingTags.push(name);
+        return `</${opener}>`;
+      }
+      if (name !== undefined && !match.endsWith("/>")) {
+        openPlaceholderTags.push(name);
+      }
+      return match;
+    },
+  );
 
   const expressionDocs = printEmbeddedTemplateExpressions(path, options, print);
 
@@ -44,12 +73,26 @@ async function printEmbedHtmlLike(parser, textToDoc, print, path, options) {
     },
   });
 
+  const closingTagRegex = new RegExp(
+    `</${composePlaceholder(String.raw`\d+`)}`,
+    "g",
+  );
   const contentDoc = mapDoc(doc, (doc) => {
     if (typeof doc !== "string") {
       return doc;
     }
 
     const parts = [];
+
+    if (closingTags.length > 0) {
+      doc = doc.replaceAll(closingTagRegex, (match) => {
+        if (closingTags.length === 0) {
+          return match;
+        }
+        const name = closingTags.shift();
+        return name === undefined ? "</" : `</${name}`;
+      });
+    }
 
     const components = doc.split(placeholderRegex);
     for (let i = 0; i < components.length; i++) {
