@@ -222,6 +222,11 @@ function printTernary(path, options, print, args) {
     firstNonConditionalParent.type === "JSXExpressionContainer" &&
     path.grandparent.type !== "JSXAttribute";
 
+  // The trailing softline is only wanted when the whole chain is a direct
+  // child of a JSX expression container that is not an attribute value.
+  const isInJsxChildExpression =
+    isInJsx && path.getParentNode(i)?.type !== "JSXAttribute";
+
   const shouldExtraIndent = shouldExtraIndentForConditionalExpression(path);
   const breakClosingParen = shouldBreakClosingParen(node, parent);
   const breakTSClosingParen =
@@ -376,7 +381,7 @@ function printTernary(path, options, print, args) {
       ? printedAlternateWithParens
       : group([
           indent(printedAlternateWithParens),
-          isInJsx && !tryToParenthesizeAlternate ? softline : "",
+          isInJsxChildExpression && !tryToParenthesizeAlternate ? softline : "",
         ]),
 
     breakClosingParen && !shouldExtraIndent ? softline : "",
