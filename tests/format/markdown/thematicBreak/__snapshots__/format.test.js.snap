@@ -17,6 +17,78 @@ proseWrap: "always"
 ================================================================================
 `;
 
+exports[`nested-list.md - {"proseWrap":"always"} format 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+proseWrap: "always"
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+1. This is content
+
+   ***
+
+   Other content
+   1. This is content
+
+      ***
+
+      Other content
+      1. This is content
+
+         ***
+
+         Other content
+
+- a
+
+  ---
+
+  - b
+
+    ---
+
+    - c
+
+      ---
+
+* d
+
+  ---
+
+=====================================output=====================================
+1. This is content
+
+   ***
+
+   Other content
+   1. This is content
+
+      ***
+
+      Other content
+      1. This is content
+
+         ***
+
+         Other content
+
+- a
+
+  ***
+  - b
+
+    ***
+    - c
+
+      ***
+
+* d
+
+  ---
+
+================================================================================
+`;
+
 exports[`simple.md - {"proseWrap":"always"} format 1`] = `
 ====================================options=====================================
 parsers: ["markdown"]

@@ -241,6 +241,8 @@ function printMdast(path, options, print) {
 
         return "---";
       }
+      // The marker depends on the index among adjacent sibling lists, not on
+      // nesting depth. It keeps the break from looking like the list's bullet.
       const nthSiblingIndex = getNthListSiblingIndex(
         ancestors[counter],
         ancestors[counter + 1],
