@@ -9,8 +9,20 @@
  * @returns {Doc}
  */
 function printPrettierIgnored(path, options) {
+  const { start } = path.node.position;
+  let startOffset = start.offset;
+
+  // The ignore comment may be embedded in a preceding html block, which
+  // already ended at a blank line; keep the indentation of our first line.
+  if (path.previous?.type === "html" && path.parent.type === "root") {
+    const lineStart = startOffset - (start.column - 1);
+    if (options.originalText.slice(lineStart, startOffset).trim() === "") {
+      startOffset = lineStart;
+    }
+  }
+
   const originalText = options.originalText.slice(
-    path.node.position.start.offset,
+    startOffset,
     path.node.position.end.offset,
   );
 

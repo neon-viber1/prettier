@@ -267,6 +267,15 @@ function isPrettierIgnore(node) {
 
   if (node.type === "html") {
     match = node.value.match(/^<!--\s*prettier-ignore(?:-(start|end))?\s*-->$/);
+
+    // An html block may swallow the comment together with other lines
+    // (e.g. `<div>` ... comment ... `<pre>`), so look for a line of its own.
+    if (
+      !match &&
+      /^<!--[ \t]*prettier-ignore[ \t]*-->[ \t]*$/m.test(node.value)
+    ) {
+      return "next";
+    }
   } else {
     let comment;
 
