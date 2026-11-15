@@ -333,6 +333,73 @@ const fn2 = () => {
 ================================================================================
 `;
 
+exports[`conditional-body-width.ts - {"semi":false} format 1`] = `
+====================================options=====================================
+parsers: ["typescript"]
+semi: false
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): number =>
+  true ? a : b;
+
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): numbe =>
+  true ? a : b;
+
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): number =>
+  ident;
+
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): number =>
+  "string";
+
+=====================================output=====================================
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): number =>
+  true ? a : b
+
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): numbe =>
+  true ? a : b
+
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): number =>
+  ident
+
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): number =>
+  "string"
+
+================================================================================
+`;
+
+exports[`conditional-body-width.ts format 1`] = `
+====================================options=====================================
+parsers: ["typescript"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): number =>
+  true ? a : b;
+
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): numbe =>
+  true ? a : b;
+
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): number =>
+  ident;
+
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): number =>
+  "string";
+
+=====================================output=====================================
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): number =>
+  true ? a : b;
+
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): numbe =>
+  true ? a : b;
+
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): number =>
+  ident;
+
+const sortByCreatedAsc: AgentSortOptionsFn = (a: AiAgent, b: AiAgent): number =>
+  "string";
+
+================================================================================
+`;
+
 exports[`issue-6107-curry.ts - {"semi":false} format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
