@@ -97,6 +97,43 @@ note: started here (2:2)
   ^"
 `;
 
+exports[`chain-comments.ts format 1`] = `
+====================================options=====================================
+parsers: ["typescript", "flow"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+(a?.b
+      //comment
+      )!.bar();
+
+(a?.b.c
+  // comment
+  )!.d.e();
+
+=====================================output=====================================
+(a?.b)!.bar();
+//comment
+
+(a?.b.c)!.d.e();
+// comment
+
+================================================================================
+`;
+
+exports[`chain-comments.ts format[hermes] 1`] = `
+"';' expected (3:8)
+  1 | (a?.b
+  2 |       //comment
+> 3 |       )!.bar();
+    |        ^
+  4 |
+  5 | (a?.b.c
+  6 |   // comment
+Cause: ';' expected (3:7)
+      )!.bar();
+       ^"
+`;
+
 exports[`comments.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript", "flow"]

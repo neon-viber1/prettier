@@ -339,9 +339,13 @@ function printMemberChain(path, options, print) {
     flatGroups
       .slice(1, -1)
       .some((node) => hasComment(node.node, CommentCheckFlags.Leading)) ||
-    flatGroups
-      .slice(0, -1)
-      .some((node) => hasComment(node.node, CommentCheckFlags.Trailing)) ||
+    flatGroups.slice(0, -1).some(
+      (node, index) =>
+        hasComment(node.node, CommentCheckFlags.Trailing) &&
+        // A parenthesized head, e.g. `(a?.b // comment\n)!.c`: a non-null
+        // assertion cannot follow a line break, so don't force breaking.
+        !(index === 0 && isNonNullExpression(flatGroups[1]?.node)),
+    ) ||
     (groups[cutoff] &&
       hasComment(groups[cutoff][0].node, CommentCheckFlags.Leading));
 
