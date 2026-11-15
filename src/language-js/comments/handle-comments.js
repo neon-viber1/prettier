@@ -1223,6 +1223,15 @@ function handleParenthesizedExpressionTrailingComment({
       enclosingNode.type === "ExpressionStatement" &&
       enclosingNode.expression === precedingNode
     ) {
+      // Flow comment types (`/*:: as T*/`) are code, keep them before `;`
+      if (
+        isBlockComment(comment) &&
+        comment.value.startsWith(":") &&
+        locEnd(comment) === locEnd(enclosingNode)
+      ) {
+        return false;
+      }
+
       return addTrailingComment(enclosingNode, comment);
     }
 

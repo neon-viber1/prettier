@@ -341,7 +341,25 @@ function setContentEnd(node, comments, originalText) {
   const textBeforeSemicolon = text.slice(locStart(node), end);
   const cleaned = textBeforeSemicolon.trimEnd();
 
-  node.__contentEnd = end - (textBeforeSemicolon.length - cleaned.length);
+  let contentEnd = end - (textBeforeSemicolon.length - cleaned.length);
+
+  // Flow comment types (`/*:: ... */`, `/*: ... */`) are part of the code, keep
+  // them before the semicolon: `foo /*:: as T*/;`
+  // Only when every comment before the semicolon is such a comment, so the
+  // order of comments is kept.
+  const commentsBeforeSemicolon = comments.filter(
+    (comment) => locStart(comment) >= contentEnd && locEnd(comment) <= end,
+  );
+  if (
+    commentsBeforeSemicolon.length > 0 &&
+    commentsBeforeSemicolon.every(
+      (comment) => isBlockComment(comment) && comment.value.startsWith(":"),
+    )
+  ) {
+    contentEnd = locEnd(commentsBeforeSemicolon.at(-1));
+  }
+
+  node.__contentEnd = contentEnd;
 }
 
 export default postprocess;
