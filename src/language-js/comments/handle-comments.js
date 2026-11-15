@@ -710,8 +710,39 @@ function handleMatchOrPatternComments({
   return false;
 }
 
-function handlePropertyComments({ comment, enclosingNode }) {
+function handlePropertyComments({
+  comment,
+  enclosingNode,
+  precedingNode,
+  followingNode,
+  options,
+  text,
+}) {
   if (isObjectProperty(enclosingNode)) {
+    // `key: // comment\n value` and `key: /* comment */\n value`
+    if (
+      !enclosingNode.computed &&
+      !enclosingNode.shorthand &&
+      precedingNode === enclosingNode.key &&
+      followingNode === enclosingNode.value
+    ) {
+      const colonIndex = stripComments(options).indexOf(
+        ":",
+        locEnd(precedingNode),
+      );
+      if (
+        colonIndex < locStart(comment) &&
+        // It's the only comment between the colon and the value
+        (
+          text.slice(colonIndex + 1, locStart(comment)) +
+          text.slice(locEnd(comment), locStart(followingNode))
+        ).trim() === ""
+      ) {
+        return isBlockComment(comment)
+          ? addLeadingComment(followingNode, comment)
+          : addTrailingComment(enclosingNode, comment);
+      }
+    }
     return addLeadingComment(enclosingNode, comment);
   }
   return false;
