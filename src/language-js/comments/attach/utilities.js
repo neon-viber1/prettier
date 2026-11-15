@@ -44,6 +44,23 @@ function addCommentToPossibleBlockStatement(node, comment) {
 }
 
 /**
+Attach the comment inside the body if it is an empty block, otherwise
+make it a leading comment of the body.
+@returns {true}
+*/
+function addCommentToStatementBody(node, comment) {
+  if (
+    node.type === "BlockStatement" &&
+    node.body.every(({ type }) => type === "EmptyStatement") &&
+    !node.directives?.length
+  ) {
+    return addBlockFirstComment(node, comment);
+  }
+
+  return addLeadingComment(node, comment);
+}
+
+/**
 @param {
   | NodeMap["BlockStatement"]
   | NodeMap["ClassBody"]
@@ -89,6 +106,7 @@ function addBlockFirstComment(node, comment) {
 export {
   addBlockFirstComment,
   addCommentToPossibleBlockStatement,
+  addCommentToStatementBody,
   isSingleLineBlockComment,
   isSingleLineComment,
 };

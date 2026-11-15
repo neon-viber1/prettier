@@ -137,9 +137,8 @@ for (x of y)
   bar();
 }
 
-for (x of y)
-// 21
-{
+for (x of y) {
+  // 21
 }
 
 for (x of y) // 31

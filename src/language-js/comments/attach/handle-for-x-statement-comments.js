@@ -4,6 +4,7 @@ import {
 } from "../../../main/comments/utilities.js";
 import { locEnd, locStart } from "../../location/index.js";
 import { stripComments } from "../../utilities/strip-comments.js";
+import { addCommentToStatementBody } from "./utilities.js";
 
 function handleForXStatementComments({
   comment,
@@ -45,7 +46,7 @@ function handleForXStatementComments({
     );
 
     if (locStart(comment) > closingParenthesisIndex) {
-      return addLeadingComment(followingNode, comment);
+      return addCommentToStatementBody(followingNode, comment);
     }
   }
 
