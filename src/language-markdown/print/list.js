@@ -185,8 +185,10 @@ function printListLegacy(path, options, print) {
               ? node.start
               : isGitDiffFriendlyOrderedList
                 ? 1
-                : node.start + path.index) +
-            (nthSiblingIndex % 2 === 0 ? ". " : ") ")
+                : Math.min(
+                    node.start + path.index,
+                    MAXIMUM_ORDERED_LIST_MARKER,
+                  )) + (nthSiblingIndex % 2 === 0 ? ". " : ") ")
           : nthSiblingIndex % 2 === 0
             ? "- "
             : "* ";
