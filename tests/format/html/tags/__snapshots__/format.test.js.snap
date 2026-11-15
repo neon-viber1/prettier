@@ -1356,10 +1356,10 @@ ___________________________
 <pre>
      Foo     Bar
 </pre>
-<pre>
-Foo     Bar
+<pre>Foo     Bar
 </pre>
-<pre>     Foo     Bar</pre>
+<pre>
+     Foo     Bar</pre>
 <figure role="img" aria-labelledby="cow-caption">
   <pre>
 ___________________________
@@ -1594,10 +1594,10 @@ ___________________________
 <pre>
      Foo     Bar
 </pre>
-<pre>
-Foo     Bar
+<pre>Foo     Bar
 </pre>
-<pre>     Foo     Bar</pre>
+<pre>
+     Foo     Bar</pre>
 <figure role="img" aria-labelledby="cow-caption">
   <pre>
 ___________________________
@@ -1831,10 +1831,10 @@ ___________________________
 <pre>
      Foo     Bar
 </pre>
-<pre>
-Foo     Bar
+<pre>Foo     Bar
 </pre>
-<pre>     Foo     Bar</pre>
+<pre>
+     Foo     Bar</pre>
 <figure role="img" aria-labelledby="cow-caption">
   <pre>
 ___________________________
@@ -2055,13 +2055,11 @@ ___________________________
    line breaks
 
 </pre>
-<pre>
-     Foo     Bar     </pre>
+<pre>     Foo     Bar     </pre>
 <pre>
      Foo     Bar
 </pre>
-<pre>
-Foo     Bar
+<pre>Foo     Bar
 </pre>
 <pre>
      Foo     Bar</pre>
@@ -2318,10 +2316,10 @@ ___________________________
 <pre>
      Foo     Bar
 </pre>
-<pre>
-Foo     Bar
+<pre>Foo     Bar
 </pre>
-<pre>     Foo     Bar</pre>
+<pre>
+     Foo     Bar</pre>
 <figure role="img" aria-labelledby="cow-caption">
   <pre>
 ___________________________

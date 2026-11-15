@@ -44,6 +44,7 @@ function removeIgnorableFirstLf(ast /* , options */) {
       node.children[0].value[0] === "\n"
     ) {
       const text = node.children[0];
+      node.hasIgnorableFirstLf = true;
       if (text.value.length === 1) {
         node.removeChild(text);
       } else {
