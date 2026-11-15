@@ -174,6 +174,8 @@ overrides:
 
 `files` patterns are matched against the file path relative to the directory containing the configuration file, not the current working directory, so `legacy/**/*.js` only matches files inside the `legacy/` directory next to that configuration file. A pattern without a `/`, such as `*.html`, is matched against the file name alone, so it applies at any depth.
 
+Overrides are also applied to embedded code in fenced code blocks of Markdown files: the block's language is mapped to a file extension (for example `scss` → `.scss`), and the options of overrides matching a file with that extension in the same directory are used for the block. `excludeFiles` patterns naming specific files cannot match such blocks.
+
 ## Setting the [parser](options.md#parser) option
 
 By default, Prettier automatically infers which parser to use based on the input file extension. Combined with `overrides` you can teach Prettier how to parse files it does not recognize.

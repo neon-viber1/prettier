@@ -1,5 +1,8 @@
 import { hardline, markAsRoot, replaceEndOfLine } from "../document/index.js";
-import inferParser from "../utilities/infer-parser.js";
+import { resolveEmbeddedOptions } from "../main/embedded-config.js";
+import inferParser, {
+  getLanguageByLanguageName,
+} from "../utilities/infer-parser.js";
 import { printCodeFences } from "./print/code.js";
 import { getFencedCodeBlockValue } from "./utilities.js";
 
@@ -29,6 +32,18 @@ function embed(path, options) {
 
       return async (textToDoc) => {
         const textToDocOptions = { parser };
+
+        // Apply config `overrides` matching the embedded language
+        const languages = options.plugins
+          .toReversed()
+          .flatMap((plugin) => plugin.languages ?? []);
+        const extension = getLanguageByLanguageName(languages, language)
+          ?.extensions?.[0];
+        Object.assign(
+          textToDocOptions,
+          await resolveEmbeddedOptions(options.filepath, extension),
+          { parser },
+        );
 
         // Override the filepath option.
         // This is because whether the trailing comma of type parameters
