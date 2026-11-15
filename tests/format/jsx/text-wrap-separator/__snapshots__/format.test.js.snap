@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`separator.jsx - {"printWidth":40} format 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+printWidth: 40
+                        printWidth: 40 |
+=====================================input======================================
+<div style={{ letterSpacing: ".15px" }}>→ Next: <strong>{label}</strong> · {date}</div>;
+
+<div>aaaaaaaaaaaa <strong>{label}</strong> | <b>bbbbbbbbbbbbbbbbbbbbbbbbbbbb</b></div>;
+
+<div>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa <b>x</b>{" · "}{date}</div>;
+
+<div><b>x</b> · {date}</div>;
+
+<div><b>x</b>{" · "}{date}</div>;
+
+<div>aaaaaaaaaaaa <b>x</b> and {date} <i>y</i> then more words here</div>;
+
+<div>{aaaaaaaaaaaaaaaaaaaa} · {bbbbbbbbbbbbbbbbbbbb} · {cccccccccccccccccccc}</div>;
+
+<div>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa <b>x</b> - {c}</div>;
+
+=====================================output=====================================
+<div style={{ letterSpacing: ".15px" }}>
+  → Next: <strong>{label}</strong>{" · "}
+  {date}
+</div>;
+
+<div>
+  aaaaaaaaaaaa <strong>{label}</strong>{" | "}
+  <b>bbbbbbbbbbbbbbbbbbbbbbbbbbbb</b>
+</div>;
+
+<div>
+  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa{" "}
+  <b>x</b>{" · "}{date}
+</div>;
+
+<div>
+  <b>x</b> · {date}
+</div>;
+
+<div>
+  <b>x</b>{" · "}{date}
+</div>;
+
+<div>
+  aaaaaaaaaaaa <b>x</b> and {date}{" "}
+  <i>y</i> then more words here
+</div>;
+
+<div>
+  {aaaaaaaaaaaaaaaaaaaa}{" · "}
+  {bbbbbbbbbbbbbbbbbbbb}{" · "}
+  {cccccccccccccccccccc}
+</div>;
+
+<div>
+  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa{" "}
+  <b>x</b> - {c}
+</div>;
+
+================================================================================
+`;

@@ -1,4 +1,6 @@
+import { isJsxSeparatorRun } from "../utilities/is-jsx-separator-run.js";
 import { isMeaningfulEmptyStatement } from "../utilities/is-meaningful-empty-statement.js";
+import { isMeaningfulJsxText } from "../utilities/is-meaningful-jsx-text.js";
 import {
   isArrayExpression,
   isBigIntLiteral,
@@ -34,6 +36,31 @@ const removeTemplateElementsValue = (node) => {
     delete templateElement.value;
   }
 };
+
+// Whitespace-only text containing a line break is insignificant in JSX.
+const isInsignificantJsxText = (node) =>
+  node.type === "JSXText" && !isMeaningfulJsxText(node);
+
+function isJsxSeparatorContainer(node, parent) {
+  const children = parent?.children;
+  if (!children) {
+    return false;
+  }
+  const index = children.indexOf(node);
+  const previous = children
+    .slice(0, index)
+    .findLast((child) => !isInsignificantJsxText(child));
+  const next = children
+    .slice(index + 1)
+    .find((child) => !isInsignificantJsxText(child));
+  return (
+    previous !== undefined &&
+    next !== undefined &&
+    previous.type !== "JSXText" &&
+    next.type !== "JSXText" &&
+    isJsxSeparatorRun(node.expression.value)
+  );
+}
 
 /**
 @param {Node} original
@@ -78,7 +105,10 @@ function massageAstNode(original, cloned, parent) {
     original.type === "JSXExpressionContainer" &&
     (original.expression.type === "Literal" ||
       original.expression.type === "StringLiteral") &&
-    original.expression.value === " "
+    (original.expression.value === " " ||
+      // Punctuation separator printed as one string between two non-text
+      // children, see `printJsxChildren`
+      isJsxSeparatorContainer(original, parent))
   ) {
     return null;
   }
