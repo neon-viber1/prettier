@@ -37,6 +37,8 @@ Valid options:
 
 Specify the line length that the printer will wrap on.
 
+When reading `max_line_length` from an `.editorconfig` file, a positive integer sets the print width, while `unset` (or the legacy `off`) sets an infinite print width, so lines are never wrapped because of their length.
+
 :::warning
 
 **For readability we recommend against using more than 80 characters:**
