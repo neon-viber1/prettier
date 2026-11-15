@@ -45,7 +45,8 @@ function shouldPrePrintHardline({ node, parent }) {
   const isInlineNode =
     INLINE_NODE_TYPES.has(node.type) &&
     !(
-      node.type === "liquidNode" && !INLINE_NODE_WRAPPER_TYPES.has(parent.type)
+      (node.type === "liquidNode" || node.type === "esComment") &&
+      !INLINE_NODE_WRAPPER_TYPES.has(parent.type)
     );
 
   const isInlineHTML =

@@ -27,6 +27,7 @@ const EXPORT_REGEX = /^export\s/;
 const BLOCKS_REGEX = String.raw`[a-z][a-z0-9]*(\.[a-z][a-z0-9]*)*|`;
 const COMMENT_REGEX = /<!---->|<!---?[^>-](?:-?[^-])*-->/;
 const ES_COMMENT_REGEX = /^\{\s*\/\*(.*)\*\/\s*\}/;
+const MULTILINE_ES_COMMENT_REGEX = /^\{\s*\/\*(.*?)\*\/\s*\}[^\S\n]*(?=\n|$)/s;
 const EMPTY_NEWLINE = "\n\n";
 
 const isImport = (text) => IMPORT_REGEX.test(text);
@@ -63,6 +64,23 @@ const tokenizeEsComment = (eat, value) => {
 
 tokenizeEsComment.locator = (value, fromIndex) => value.indexOf("{", fromIndex);
 
+// Multiline comments may contain blank lines, so they must be tokenized as
+// blocks before the paragraph tokenizer splits them. The raw text is kept.
+const tokenizeEsCommentBlock = (eat, value, silent) => {
+  const match = MULTILINE_ES_COMMENT_REGEX.exec(value);
+
+  if (match && match[1].includes("\n")) {
+    if (silent) {
+      return true;
+    }
+
+    return eat(match[0].trimEnd())({
+      type: "esComment",
+      value: match[1],
+    });
+  }
+};
+
 /** @import {Plugin, Settings} from "unified" */
 
 /**
@@ -70,13 +88,22 @@ tokenizeEsComment.locator = (value, fromIndex) => value.indexOf("{", fromIndex);
  */
 const esSyntax = function () {
   const { Parser } = this;
-  const { blockTokenizers, blockMethods, inlineTokenizers, inlineMethods } =
-    Parser.prototype;
+  const {
+    blockTokenizers,
+    blockMethods,
+    inlineTokenizers,
+    inlineMethods,
+    interruptParagraph,
+  } = Parser.prototype;
 
   blockTokenizers.esSyntax = tokenizeEsSyntax;
+  blockTokenizers.esCommentBlock = tokenizeEsCommentBlock;
   inlineTokenizers.esComment = tokenizeEsComment;
 
   blockMethods.splice(blockMethods.indexOf("paragraph"), 0, "esSyntax");
+  blockMethods.splice(blockMethods.indexOf("paragraph"), 0, "esCommentBlock");
+  // Allow a multiline comment to start right after a paragraph line
+  interruptParagraph.push(["esCommentBlock"]);
   inlineMethods.splice(inlineMethods.indexOf("text"), 0, "esComment");
 };
 

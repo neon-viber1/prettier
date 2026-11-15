@@ -921,3 +921,224 @@ export default ({ children }) => <div>{children}</div>;
 
 ================================================================================
 `;
+
+exports[`multiline-comment.mdx - {"semi":false} format 1`] = `
+====================================options=====================================
+parsers: ["mdx"]
+semi: false
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+# Title
+
+{/*
+  a
+
+  b
+*/}
+
+Paragraph.
+{/*
+ * a
+ * b
+ */}
+
+{/*
+
+Multiline comment
+
+with blank lines
+
+*/}
+
+Paragraph.
+
+{/**
+ * JSDoc-style comment
+ *
+ * with stars
+ */}
+
+{/* single line */}
+
+{/* first
+multi */}
+
+{/* second
+
+multi */}
+
+- item
+
+  {/*
+    nested
+
+    comment
+  */}
+
+<Foo>
+  text
+</Foo>
+
+=====================================output=====================================
+# Title
+
+{/*
+  a
+
+  b
+*/}
+
+Paragraph.
+
+{/*
+ * a
+ * b
+ */}
+
+{/*
+
+Multiline comment
+
+with blank lines
+
+*/}
+
+Paragraph.
+
+{/**
+ * JSDoc-style comment
+ *
+ * with stars
+ */}
+
+{/* single line */}
+
+{/* first
+multi */}
+
+{/* second
+
+multi */}
+
+- item
+
+  {/*
+    nested
+
+    comment
+  */}
+
+<Foo>text</Foo>
+
+================================================================================
+`;
+
+exports[`multiline-comment.mdx format 1`] = `
+====================================options=====================================
+parsers: ["mdx"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+# Title
+
+{/*
+  a
+
+  b
+*/}
+
+Paragraph.
+{/*
+ * a
+ * b
+ */}
+
+{/*
+
+Multiline comment
+
+with blank lines
+
+*/}
+
+Paragraph.
+
+{/**
+ * JSDoc-style comment
+ *
+ * with stars
+ */}
+
+{/* single line */}
+
+{/* first
+multi */}
+
+{/* second
+
+multi */}
+
+- item
+
+  {/*
+    nested
+
+    comment
+  */}
+
+<Foo>
+  text
+</Foo>
+
+=====================================output=====================================
+# Title
+
+{/*
+  a
+
+  b
+*/}
+
+Paragraph.
+
+{/*
+ * a
+ * b
+ */}
+
+{/*
+
+Multiline comment
+
+with blank lines
+
+*/}
+
+Paragraph.
+
+{/**
+ * JSDoc-style comment
+ *
+ * with stars
+ */}
+
+{/* single line */}
+
+{/* first
+multi */}
+
+{/* second
+
+multi */}
+
+- item
+
+  {/*
+    nested
+
+    comment
+  */}
+
+<Foo>text</Foo>
+
+================================================================================
+`;
