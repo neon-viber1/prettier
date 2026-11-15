@@ -552,6 +552,78 @@ proseWrap: "always"
 ================================================================================
 `;
 
+exports[`html-comment-in-task-item.md - {"proseWrap":"always"} format 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+proseWrap: "always"
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+- [ ] Foo
+
+    <!--
+      Something
+    -->
+
+- [x] Bar
+
+    <!--
+      Something
+    -->
+
+- [ ] Nested
+  - [ ] Foo
+
+      <!--
+        Something
+      -->
+
+1. [ ] Ordered
+
+    <!--
+      Something
+    -->
+
+- Plain
+
+    <!--
+      Something
+    -->
+
+=====================================output=====================================
+- [ ] Foo
+
+  <!--
+    Something
+  -->
+
+- [x] Bar
+
+  <!--
+    Something
+  -->
+
+- [ ] Nested
+  - [ ] Foo
+
+    <!--
+      Something
+    -->
+
+1. [ ] Ordered
+
+   <!--
+     Something
+   -->
+
+- Plain
+
+    <!--
+      Something
+    -->
+
+================================================================================
+`;
+
 exports[`interrupt.md - {"proseWrap":"always"} format 1`] = `
 ====================================options=====================================
 parsers: ["markdown"]

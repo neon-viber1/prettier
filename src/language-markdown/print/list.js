@@ -37,6 +37,7 @@ function printList(path, options, print) {
       const { node: childNode } = path;
 
       if (
+        childNode.checked === null &&
         childNode.children.length === 2 &&
         childNode.children[1].type === "html" &&
         childNode.children[0].position.start.column !==
@@ -99,8 +100,13 @@ function printListItem(path, options, print, listPrefix) {
     prefix,
     printChildren(path, options, print, {
       processor({ node, isFirst }) {
-        if ((isFirst && node.type !== "list") || node.type === "html") {
+        if (isFirst && node.type !== "list") {
           return align(" ".repeat(prefix.length), print());
+        }
+
+        if (node.type === "html") {
+          // Not the first child, so it is not on the same line as the checkbox
+          return print();
         }
 
         if (node.type === "code" && node.isIndented) {

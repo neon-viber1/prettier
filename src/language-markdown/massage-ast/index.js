@@ -18,6 +18,11 @@ function massageAstNode(original, cloned, parent) {
     delete cloned.value;
   }
 
+  // Indentation of HTML in list items depends on the list item
+  if (original.type === "html" && parent?.type === "listItem") {
+    cloned.value = original.value.replaceAll(/^[ \t]+/gm, "");
+  }
+
   if (original.type === "list") {
     delete cloned.isAligned;
   }
