@@ -1,0 +1,1 @@
+Print import attributes on TypeScript ambient module declarations
