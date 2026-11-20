@@ -41,6 +41,7 @@ const isPrintingImportAttributes = createTypeCheckFunction([
   "ExportAllDeclaration",
   "DeclareExportDeclaration",
   "DeclareExportAllDeclaration",
+  "TSModuleDeclaration",
 ]);
 
 /*
@@ -56,6 +57,7 @@ const isPrintingImportAttributes = createTypeCheckFunction([
 - `DeclareExportDeclaration` (Flow)
 - `DeclareExportAllDeclaration` (Flow)
 - `TSEnumDeclaration`(TypeScript)
+- `TSModuleDeclaration` (TypeScript, import attributes)
 */
 function printObject(path, options, print) {
   const { node, parent } = path;
