@@ -253,10 +253,13 @@ function shouldPrintSpecifiers(node, options) {
   return text.trimEnd().endsWith("from");
 }
 
+const getImportAttributesSource = (node) =>
+  node.type === "TSModuleDeclaration" ? node.id : node.source;
+
 function getImportAttributesKeyword(node, options) {
   const textBetweenSourceAndAttributes = stripComments(options)
     .slice(
-      locEnd(node.source),
+      locEnd(getImportAttributesSource(node)),
       node.attributes?.[0] ? locStart(node.attributes[0]) : locEnd(node),
     )
     .trimStart();
@@ -299,11 +302,12 @@ const isSingleTypeImportAttributes = (node) => {
 - `ExportAllDeclaration`
 - `DeclareExportDeclaration` (Flow)
 - `DeclareExportAllDeclaration` (Flow)
+- `TSModuleDeclaration` (TypeScript, ambient module with a string literal name)
 */
 function printImportAttributes(path, options, print) {
   const { node } = path;
 
-  if (!node.source) {
+  if (!getImportAttributesSource(node)) {
     return "";
   }
 
@@ -360,6 +364,7 @@ function printModuleSpecifier(path, options, print) {
 
 export {
   printExportDeclaration,
+  printImportAttributes,
   printImportDeclaration,
   printImportKind,
   printModuleSpecifier,

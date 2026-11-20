@@ -1,5 +1,6 @@
 import { group } from "../../document/index.js";
 import { printDeclareToken, printSemicolon } from "./miscellaneous.js";
+import { printImportAttributes } from "./module.js";
 
 function printModuleDeclarationKind(node) {
   if (node.type === "DeclareModule") {
@@ -28,6 +29,9 @@ function printModuleDeclaration(path, options, print) {
     printDeclareToken(path),
     kind ? `${kind} ` : "",
     print("id"),
+    node.type === "TSModuleDeclaration"
+      ? printImportAttributes(path, options, print)
+      : "",
     node.body ? [" ", group(print("body"))] : printSemicolon(options),
   ];
 }
